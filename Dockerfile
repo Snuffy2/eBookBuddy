@@ -27,6 +27,13 @@ RUN apk --no-cache add \
     fontconfig \
     dbus
 
+ARG TARGETARCH
+RUN echo "TARGETARCH: ${TARGETARCH}"
+RUN if [ "$TARGETARCH" = "arm64" ]; then \
+    echo "Installing geckodriver for arm64"; \
+    apk --no-cache add geckodriver; \
+    fi
+
 # Install requirements and run code
 RUN pip install --root-user-action=ignore --no-cache-dir --upgrade pip && \
     pip install --root-user-action=ignore --no-cache-dir -r requirements.txt
